@@ -4,13 +4,8 @@ import Nav from "./Nav"
 
 export default function Header() {
     return (
-        <header className="
-        flex fixed top-0
-        h-[8vh] w-full
-        bg-linear-to-br from-[#1f1f1f] to-[#000000] opacity-90
-        text-[#BABABA]
-        ">
-            <div className="flex flex-row items-center justify-between w-full px-5 py-2">
+        <header className="flex fixed top-0 h-[6vh] w-full bg-linear-to-br bg-zinc-900 text-[#BABABA]">
+            <div className="flex flex-row items-center justify-between max-w-300 w-full mx-auto py-2 px-4">
                 <Logo />
                 <Nav />
                 <HeaderSearch />

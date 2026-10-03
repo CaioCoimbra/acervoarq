@@ -11,4 +11,15 @@ html,
 body {
   font-family: var(--font-sans);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+input,
+textarea,
+select {
+  border: none !important;
+  outline: 2px solid transparent !important;
+  outline-offset: 2px !important;
+  box-shadow: none !important;
 }

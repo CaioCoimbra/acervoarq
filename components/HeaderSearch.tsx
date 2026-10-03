@@ -1,6 +1,7 @@
 import { useState } from "react"
-import ExplorarModal from "./ExplorarModal"
+import ExplorarModalMobile from "./ExplorarModalMobile"
 import { IconeLupa } from "./Icons"
+import ExplorarModalDesktop from "./ExplorarModalDesktop"
 
 export default function HeaderSearch() {
     const [ativado, setAtivado] = useState(false)
@@ -8,8 +9,7 @@ export default function HeaderSearch() {
     return (
         <>
             <div className="flex">
-                <input className="hidden md:bg-white rounded-lg text-black" type="text" />
-                <button className="hidden md:block text-xl cursor-pointer">
+                <button className="hidden md:block text-xl cursor-pointer"  onClick={() => setAtivado(!ativado)}>
                     {IconeLupa}
                 </button>
                 
@@ -17,7 +17,8 @@ export default function HeaderSearch() {
                     ☰
                 </button>
             </div>
-            <ExplorarModal ativado={ativado} setAtivado={setAtivado} />
+            <ExplorarModalMobile ativado={ativado} setAtivado={setAtivado} />
+            <ExplorarModalDesktop ativado={ativado} setAtivado={setAtivado} />
         </>
     )
 }
