@@ -2,10 +2,10 @@ import { ReactNode, useState } from "react"
 import NavItemMenu from "./NavItemMenu"
 
 interface NavItemProps {
-    modal: boolean
+    modal?: boolean
     texto: string
-    setAtivado: (valor: boolean) => void
-    children: ReactNode
+    setAtivado?: (valor: boolean) => void
+    children?: ReactNode
 }
 
 export default function NavItem(props: NavItemProps) {
