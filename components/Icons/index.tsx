@@ -1,3 +1,5 @@
+import { SVGProps } from 'react'
+
 export const IconeX = (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -16,13 +18,13 @@ export const IconeFlexa = (tamanho = 6) => (
     </svg>
 )
 
-export const IconeICon = (props) => (
+export const IconeICon = (props: SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width={13} height={13} fill="none" {...props}>
         <path fill="#000" d="M1.063 12.75S0 12.75 0 11.687c0-1.062 1.063-4.25 6.375-4.25 5.313 0 6.375 3.188 6.375 4.25 0 1.063-1.063 1.063-1.063 1.063H1.063Zm5.312-6.375a3.187 3.187 0 1 0 0-6.375 3.187 3.187 0 0 0 0 6.375Z" />
     </svg>
 )
 
-export const IconePin = (props) => (
+export const IconePin = (props: SVGProps<SVGSVGElement>) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width={17}
@@ -39,7 +41,7 @@ export const IconePin = (props) => (
     </svg>
 )
 
-export const IconeData = (props) => (
+export const IconeData = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={15}
@@ -60,7 +62,7 @@ export const IconeData = (props) => (
   </svg>
 )
 
-export const IconeCategoria = (props) => (
+export const IconeCategoria = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={13}

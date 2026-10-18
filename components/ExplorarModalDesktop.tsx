@@ -1,6 +1,11 @@
 import { IconeLupa, IconeFlexa } from "./Icons"
 
-export default function ExplorarModalDesktop(props) {
+interface ExplorarModalDesktopProps {
+    ativado: boolean
+    setAtivado: (valor: boolean) => void
+}
+
+export default function ExplorarModalDesktop(props: ExplorarModalDesktopProps) {
     if (!props.ativado) return null
 
     const liStyle = "flex h-5 hover:text-white cursor-pointer"

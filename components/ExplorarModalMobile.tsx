@@ -1,7 +1,12 @@
 import ExplorarItem from "./ExplorarItem"
 import { IconeX, IconeLupa } from "./Icons"
 
-export default function ExplorarModalMobile(props) {
+interface ExplorarModalMobileProps {
+    ativado: boolean
+    setAtivado: (valor: boolean) => void
+}
+
+export default function ExplorarModalMobile(props: ExplorarModalMobileProps) {
     if (!props.ativado) return null
 
     return (

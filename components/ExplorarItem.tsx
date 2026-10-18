@@ -1,7 +1,13 @@
-import { useState } from "react"
+import { ReactNode, useState } from "react"
 import { IconeFlexa } from "./Icons"
 
-export default function ExplorarItem(props) {
+interface ExplorarItemProps{
+    texto: string
+    children: ReactNode
+}
+
+
+export default function ExplorarItem(props: ExplorarItemProps) {
 
     const [itemAberto, setItemAberto] = useState(false)
 

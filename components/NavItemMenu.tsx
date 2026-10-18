@@ -1,4 +1,12 @@
-export default function NavItemMenu(props) {
+import { ReactNode } from "react"
+
+interface NavItemMenuProps {
+    ativado: boolean
+    setAtivado: (valor: boolean) => void
+    children: ReactNode
+}
+
+export default function NavItemMenu(props: NavItemMenuProps) {
     if (!props.ativado) return null
 
     return (

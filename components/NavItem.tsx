@@ -1,7 +1,14 @@
-import { useState } from "react"
+import { ReactNode, useState } from "react"
 import NavItemMenu from "./NavItemMenu"
 
-export default function NavItem(props) {
+interface NavItemProps {
+    modal: boolean
+    texto: string
+    setAtivado: (valor: boolean) => void
+    children: ReactNode
+}
+
+export default function NavItem(props: NavItemProps) {
     const [ativado, setAtivado] = useState(false)
 
     return (
