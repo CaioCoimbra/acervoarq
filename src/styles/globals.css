@@ -7,6 +7,10 @@
   --font-poppins: 'Poppins', sans-serif;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 html,
 body {
   font-family: var(--font-sans);
