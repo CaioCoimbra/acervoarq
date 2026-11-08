@@ -25,7 +25,7 @@ export default function ImagePost() {
                             className="w-full h-full rounded-lg object-cover"
                         />
                     </li>
-                    <li className="w-full bg-amber-300 rounded-lg h-[30%]">
+                    <li className="w-full rounded-lg h-[30%]">
                         <img
                             src="https://static.vecteezy.com/system/resources/thumbnails/043/789/153/small/beautiful-mosque-under-the-blue-sky-islamic-architecture-design-photo.jpg"
                             alt=""

@@ -9,11 +9,11 @@ export default function HeaderSearch() {
     return (
         <>
             <div className="flex">
-                <button className="hidden md:block text-xl cursor-pointer"  onClick={() => setAtivado(!ativado)}>
+                <button className="hidden md:block text-xl cursor-pointer" onClick={() => setAtivado(!ativado)}>
                     {IconeLupa}
                 </button>
-                
-                <button className="text-xl cursor-pointer md:hidden" onClick={() => setAtivado(true)}>
+
+                <button className="text-2xl cursor-pointer md:hidden" onClick={() => setAtivado(true)}>
                     ☰
                 </button>
             </div>

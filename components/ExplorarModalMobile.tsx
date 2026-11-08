@@ -28,8 +28,15 @@ export default function ExplorarModalMobile(props: ExplorarModalMobileProps) {
                 </ul>
             </div>
             <div className="flex justify-between bottom-0 fixed h-15 w-full left-0 px-3 py-3 gap-2">
-                <input className="backdrop-blur-3xl flex-1 rounded-2xl pl-3 shadow-[0_0_18px_3px_rgba(0,0,0,0.3)]" type="text" placeholder="Buscar..." />
-                <button className="backdrop-blur-3xl flex justify-center items-center rounded-full w-[10vw] shadow-[0_0_18px_3px_rgba(0,0,0,0.3)]">{IconeLupa}</button>
+                <input
+                    className="backdrop-blur-3xl backdrop-saturate-150 bg-white/10 border border-white/20 flex-1 rounded-2xl pl-3 shadow-[0_0_18px_3px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.3)] outline-none"
+                    type="text"
+                    placeholder="Buscar..."
+                />
+
+                <button className="backdrop-blur-3xl backdrop-saturate-150 bg-white/10 border border-white/20 flex justify-center items-center rounded-full w-[10vw] shadow-[0_0_18px_3px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.3)]">
+                    {IconeLupa}
+                </button>
             </div>
         </div>
     )
