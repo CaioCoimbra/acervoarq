@@ -24,3 +24,17 @@ export type FeedPost = Pick<
   | "descricaoResumida"
   | "imagens"
 >
+
+export type PostDetails = Pick<
+  Post,
+  | "id"
+  | "nome"
+  | "autores"
+  | "dataConclusao"
+  | "localizacao"
+  | "categoria"
+  | "area"
+  | "descricaoResumida"
+  | "descricao"
+  | "imagens"
+>

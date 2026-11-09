@@ -1,5 +1,5 @@
 import { prisma } from "./prisma";
-import type { FeedPost } from "../../types/Post";
+import type { FeedPost, PostDetails } from "../../types/Post";
 
 export const POSTS_PER_PAGE = 10;
 
@@ -7,6 +7,24 @@ export interface PostsPage {
   posts: FeedPost[];
   page: number;
   totalPages: number;
+}
+
+export async function getPost(id: string): Promise<PostDetails | null> {
+  return prisma.post.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      nome: true,
+      autores: true,
+      dataConclusao: true,
+      localizacao: true,
+      categoria: true,
+      area: true,
+      descricaoResumida: true,
+      descricao: true,
+      imagens: true,
+    },
+  });
 }
 
 export async function getPosts(requestedPage: number): Promise<PostsPage> {
