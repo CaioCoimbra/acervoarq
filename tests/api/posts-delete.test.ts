@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 vi.mock("../../src/lib/prisma", () => ({
-  prisma: { post: { delete: vi.fn() } },
+  prisma: { post: { findUnique: vi.fn(), delete: vi.fn() } },
 }));
 vi.mock("../../src/lib/requireAuth", () => ({ requireAuth: vi.fn() }));
 
@@ -10,7 +10,10 @@ import { prisma } from "../../src/lib/prisma";
 import { requireAuth } from "../../src/lib/requireAuth";
 import deletePost from "../../src/pages/api/posts/[id]";
 
-const postModel = prisma.post as unknown as { delete: ReturnType<typeof vi.fn> };
+const postModel = prisma.post as unknown as {
+  findUnique: ReturnType<typeof vi.fn>;
+  delete: ReturnType<typeof vi.fn>;
+};
 const auth = vi.mocked(requireAuth);
 
 function makeRequest(method = "DELETE") {
@@ -30,6 +33,7 @@ describe("DELETE /api/posts/[id]", () => {
 
   it("deletes a post for an authenticated session", async () => {
     auth.mockResolvedValue({ userId: "user-1" });
+    postModel.findUnique.mockResolvedValue({ authorId: "user-1" });
     postModel.delete.mockResolvedValue({ id: "post-1" });
     const res = makeResponse();
 
@@ -54,11 +58,23 @@ describe("DELETE /api/posts/[id]", () => {
 
   it("returns 404 when the post does not exist", async () => {
     auth.mockResolvedValue({ userId: "user-1" });
+    postModel.findUnique.mockResolvedValue({ authorId: "user-1" });
     postModel.delete.mockRejectedValue({ code: "P2025" });
     const res = makeResponse();
 
     await deletePost(makeRequest(), res);
 
     expect(res.status).toHaveBeenCalledWith(404);
+  });
+
+  it("returns 403 and does not delete a post owned by another user", async () => {
+    auth.mockResolvedValue({ userId: "user-1" });
+    postModel.findUnique.mockResolvedValue({ authorId: "user-2" });
+    const res = makeResponse();
+
+    await deletePost(makeRequest(), res);
+
+    expect(res.status).toHaveBeenCalledWith(403);
+    expect(postModel.delete).not.toHaveBeenCalled();
   });
 });
