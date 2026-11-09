@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  posts        Post[]
+  createdAt    DateTime @default(now())
+}
+
+model Post {
+  id                String   @id @default(cuid())
+  nome              String
+  autores           String
+  dataConclusao     String?
+  localizacao       String?
+  categoria         String?
+  area              String?
+  descricaoResumida String
+  descricao         String
+  imagens           String?
+  author            User     @relation(fields: [authorId], references: [id])
+  authorId          String
+  createdAt         DateTime @default(now())
+}
