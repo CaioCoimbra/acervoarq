@@ -1,40 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# AcervoARQ
 
-## Getting Started
+## Executar com Docker
 
-First, run the development server:
+É necessário ter Docker instalado e em execução.
+
+Na raiz do projeto, construa a imagem:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+docker build -t acervoarq .
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Inicie o aplicativo:
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```bash
+docker run --name acervoarq \
+  -p 3000:3000 \
+  -e JWT_SECRET="$(openssl rand -hex 32)" \
+  -v acervoarq-data:/data \
+  acervoarq
+```
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Abra [http://localhost:3000](http://localhost:3000). O banco SQLite e os dados permanecem no volume `acervoarq-data` entre reinicializações.
+O Docker usa cookies compatíveis com HTTP local; se servir o app por HTTPS, defina `SESSION_COOKIE_SECURE=true` no `docker run`.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+## URLs da aplicação
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Use `http://localhost:3000` como endereço base.
 
-## Learn More
+### Páginas
 
-To learn more about Next.js, take a look at the following resources:
+| URL | Uso |
+| --- | --- |
+| `/` | Feed de projetos; aceite `?page=<n>` para navegar pelas páginas. |
+| `/post/<id>` | Detalhes do projeto. |
+| `/admin/login` | Entrar na conta. |
+| `/admin/post` | Criar projeto (requer autenticação). |
+| `/admin/post/<id>` | Editar projeto (requer autenticação e propriedade). |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+### API
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Método | URL | Uso |
+| --- | --- | --- |
+| `POST` | `/api/auth/register` | Criar conta. |
+| `POST` | `/api/auth/login` | Iniciar sessão. |
+| `POST` | `/api/auth/logout` | Encerrar sessão. |
+| `POST` | `/api/posts` | Criar projeto (requer autenticação). |
+| `PUT` | `/api/posts/<id>` | Atualizar projeto (requer autenticação e propriedade). |
+| `DELETE` | `/api/posts/<id>` | Excluir projeto (requer autenticação e propriedade). |
+| `GET` | `/api/hello` | Endpoint de exemplo. |
 
-## Deploy on Vercel
+Para parar e iniciar novamente:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+docker stop acervoarq
+docker start acervoarq
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+Para apagar também o banco e os dados, remova o volume:
+
+```bash
+docker rm -f acervoarq
+docker volume rm acervoarq-data
+```
