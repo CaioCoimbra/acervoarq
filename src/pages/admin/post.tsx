@@ -75,8 +75,8 @@ export default function Post({ post, authenticated = false }: { post?: PostDetai
                                 <input id="area" name="area" type="text" defaultValue={post?.area ?? ""} className={inputStyle} placeholder="Área construída (opcional)" />
                             </div>
                             <div className={divInputStyle}>
-                                <label htmlFor="imagens">Imagem</label>
-                                <input id="imagens" name="imagens" type="text" defaultValue={post?.imagens ?? ""} className={inputStyle} placeholder="URL da imagem (opcional)" />
+                                <label htmlFor="imagens">Imagens (uma URL por linha)</label>
+                                <textarea id="imagens" name="imagens" defaultValue={post?.imagens ?? ""} className={`${inputStyle} min-h-24 resize-y`} placeholder="URL da primeira imagem\nURL da segunda imagem (opcional)" />
                             </div>
                         </div>
                         <div className="flex flex-col md:w-1/2 gap-3">

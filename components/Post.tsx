@@ -9,12 +9,12 @@ export default function Post({ post }: { post: FeedPost }) {
     return (
         <Link href={`/post/${post.id}`} className="block">
             <div className="hidden md:flex w-full h-95">
-                <ImagePost />
+                <ImagePost images={post.imagens} />
                 <TextPost post={post} />
             </div>
             <div className="flex flex-col gap-3 md:hidden">
                 <TextPostTop nome={post?.nome} autores={post?.autores} />
-                <ImagePost />
+                <ImagePost images={post.imagens} />
                 <TextPostBottom post={post} />
             </div>
         </Link>

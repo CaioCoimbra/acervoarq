@@ -60,4 +60,28 @@ describe('Login (caracterização)', () => {
         expect((await screen.findByRole('alert')).textContent).toBe('Email ou senha inválidos.')
         expect(mockPush).not.toHaveBeenCalled()
     })
+
+    it('orienta a pessoa quando o serviço de login está indisponível', async () => {
+        vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 503 }))
+        render(<Login />)
+
+        fireEvent.change(screen.getByLabelText('Login'), { target: { value: 'pessoa@exemplo.com' } })
+        fireEvent.change(screen.getByLabelText('Senha'), { target: { value: 'senha-segura' } })
+        fireEvent.click(screen.getByRole('button', { name: 'Entrar' }))
+
+        expect(await screen.findByRole('alert')).toHaveTextContent('O serviço está indisponível no momento. Tente novamente mais tarde.')
+        expect(mockPush).not.toHaveBeenCalled()
+    })
+
+    it('exibe uma mensagem de conexão quando a requisição falha', async () => {
+        vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network error')))
+        render(<Login />)
+
+        fireEvent.change(screen.getByLabelText('Login'), { target: { value: 'pessoa@exemplo.com' } })
+        fireEvent.change(screen.getByLabelText('Senha'), { target: { value: 'senha-segura' } })
+        fireEvent.click(screen.getByRole('button', { name: 'Entrar' }))
+
+        expect(await screen.findByRole('alert')).toHaveTextContent('Não foi possível conectar ao serviço. Verifique sua conexão e tente novamente.')
+        expect(mockPush).not.toHaveBeenCalled()
+    })
 })

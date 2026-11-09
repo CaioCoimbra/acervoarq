@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 
 vi.mock('../ImagesPost', () => ({
-    default: () => <div data-testid="image-post" />,
+    default: ({ images }: { images?: string | null }) => <div data-testid="image-post">{images}</div>,
 }))
 vi.mock('../TextPost', () => ({
     default: () => <div data-testid="text-post" />,
@@ -29,11 +29,15 @@ describe('Post (caracterização)', () => {
             localizacao: 'São Paulo',
             categoria: 'Residencial',
             descricaoResumida: 'Descrição',
-            imagens: null,
+            imagens: 'https://example.org/1.jpg\nhttps://example.org/2.jpg',
         }} />)
 
         expect(screen.getByRole('link')).toHaveAttribute('href', '/post/post-123')
         expect(screen.getAllByTestId('image-post')).toHaveLength(2)
+        expect(screen.getAllByTestId('image-post').map((element) => element.textContent)).toEqual([
+            'https://example.org/1.jpg\nhttps://example.org/2.jpg',
+            'https://example.org/1.jpg\nhttps://example.org/2.jpg',
+        ])
         expect(screen.getByTestId('text-post')).toBeTruthy()
         expect(screen.getByTestId('text-post-top')).toBeTruthy()
         expect(screen.getByTestId('text-post-bottom')).toBeTruthy()

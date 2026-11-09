@@ -3,45 +3,25 @@ import { render } from '@testing-library/react'
 
 import ImagePost from '../ImagesPost'
 
-// A.3 — Caracterização de components/ImagesPost.tsx
-//
-// Comportamento ATUAL (sem modificar o código):
-// - O componente não recebe props e renderiza um layout de galeria:
-//   1 imagem grande (75% da largura) + lista de 3 miniaturas (25%).
-// - Todas as 4 tags <img> usam a MESMA URL hardcoded (imagem de mesquita
-//   do Vecteezy) — é placeholder repetido, não um array de imagens distintas.
-// - Usa <img> nativo (eslint-disable @next/next/no-img-element), não next/image.
-// - Todos os atributos alt são strings vazias.
 describe('ImagesPost (caracterização)', () => {
-    it('renderiza 4 imagens: 1 principal + 3 miniaturas', () => {
-        const { container } = render(<ImagePost />)
+    it('renderiza todas as URLs cadastradas, sem repetir a imagem principal', () => {
+        const urls = ['https://example.org/1.jpg', 'https://example.org/2.jpg', 'https://example.org/3.jpg', 'https://example.org/4.jpg', 'https://example.org/5.jpg']
+        const { container } = render(<ImagePost images={urls.join('\n')} />)
 
-        const images = Array.from(container.querySelectorAll('img'))
-        expect(images).toHaveLength(4)
-
-        const thumbnails = container.querySelectorAll('ul img')
-        expect(thumbnails).toHaveLength(3)
-        expect(images.filter((image) => !image.closest('ul'))).toHaveLength(1)
+        expect(Array.from(container.querySelectorAll('img')).map((image) => image.getAttribute('src'))).toEqual(urls)
     })
 
-    it('usa a mesma URL hardcoded em todas as imagens', () => {
-        const { container } = render(<ImagePost />)
-
-        const expectedSrc =
-            'https://static.vecteezy.com/system/resources/thumbnails/043/789/153/small/beautiful-mosque-under-the-blue-sky-islamic-architecture-design-photo.jpg'
+    it('usa uma única imagem como principal sem criar miniaturas duplicadas', () => {
+        const { container } = render(<ImagePost images="https://example.org/1.jpg" />)
 
         const images = container.querySelectorAll('img')
-        for (const img of images) {
-            expect(img.getAttribute('src')).toBe(expectedSrc)
-        }
+        expect(images).toHaveLength(1)
+        expect(images[0].getAttribute('src')).toBe('https://example.org/1.jpg')
     })
 
-    it('todas as imagens têm alt vazio (comportamento atual)', () => {
+    it('mantém a imagem padrão quando não há imagens cadastradas', () => {
         const { container } = render(<ImagePost />)
 
-        const images = container.querySelectorAll('img')
-        for (const img of images) {
-            expect(img.getAttribute('alt')).toBe('')
-        }
+        expect(container.querySelector('img')?.getAttribute('src')).toBe('https://static.vecteezy.com/system/resources/thumbnails/043/789/153/small/beautiful-mosque-under-the-blue-sky-islamic-architecture-design-photo.jpg')
     })
 })

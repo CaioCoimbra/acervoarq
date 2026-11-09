@@ -29,7 +29,9 @@ export default function Login() {
             }
 
             if (!response.ok) {
-                setError("Não foi possível entrar. Tente novamente.")
+                setError(response.status >= 500
+                    ? "O serviço está indisponível no momento. Tente novamente mais tarde."
+                    : "Não foi possível entrar. Verifique os dados e tente novamente.")
                 return
             }
 
@@ -39,7 +41,7 @@ export default function Login() {
                 : "/admin/post"
             await router.push(destination)
         } catch {
-            setError("Não foi possível entrar. Tente novamente.")
+            setError("Não foi possível conectar ao serviço. Verifique sua conexão e tente novamente.")
         } finally {
             setSubmitting(false)
         }

@@ -39,7 +39,7 @@ describe('Formulário de novo projeto (caracterização)', () => {
         expect(screen.getByRole('link', { name: 'Cancelar' })).toHaveAttribute('href', '/')
         expect(screen.getByRole('button', { name: 'Enviar' })).toBeTruthy()
         expect(screen.getByPlaceholderText('Área construída (opcional)')).toBeTruthy()
-        expect(screen.getByPlaceholderText('URL da imagem (opcional)')).toBeTruthy()
+        expect(screen.getByLabelText('Imagens (uma URL por linha)')).toBeTruthy()
         expect(screen.getByPlaceholderText('Descrição completa do projeto...')).toBeTruthy()
         expect(screen.getByPlaceholderText('Ex: UNDB')).toHaveAttribute('required')
         expect(screen.getByPlaceholderText('Fale mais sobre o projeto...')).toHaveAttribute('required')
@@ -81,7 +81,7 @@ describe('Formulário de novo projeto (caracterização)', () => {
         fireEvent.change(screen.getByPlaceholderText('Ex: Av. Coronel Colares Moreira, 443A - Jardim Renascença, São Luís - MA'), { target: { value: 'Morumbi' } })
         fireEvent.change(screen.getByPlaceholderText('Ex: Universidade'), { target: { value: 'Residencial' } })
         fireEvent.change(screen.getByPlaceholderText('Área construída (opcional)'), { target: { value: '700 m²' } })
-        fireEvent.change(screen.getByPlaceholderText('URL da imagem (opcional)'), { target: { value: 'https://images.example.org/casa.jpg' } })
+        fireEvent.change(screen.getByLabelText('Imagens (uma URL por linha)'), { target: { value: 'https://images.example.org/casa.jpg\nhttps://images.example.org/casa-2.jpg' } })
         fireEvent.change(screen.getByPlaceholderText('Fale mais sobre o projeto...'), { target: { value: 'Residência modernista.' } })
         fireEvent.change(screen.getByPlaceholderText('Descrição completa do projeto...'), { target: { value: 'Descrição longa.' } })
         fireEvent.click(screen.getByRole('button', { name: 'Enviar' }))
@@ -96,7 +96,7 @@ describe('Formulário de novo projeto (caracterização)', () => {
                 localizacao: 'Morumbi',
                 categoria: 'Residencial',
                 area: '700 m²',
-                imagens: 'https://images.example.org/casa.jpg',
+                imagens: 'https://images.example.org/casa.jpg\nhttps://images.example.org/casa-2.jpg',
                 descricaoResumida: 'Residência modernista.',
                 descricao: 'Descrição longa.',
             }),
