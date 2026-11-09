@@ -1,12 +1,13 @@
+import Link from "next/link";
 import ImagePost from "./ImagesPost";
 import TextPost from "./TextPost";
 import TextPostBottom from "./TextPostBottom";
 import TextPostTop from "./TextPostTop";
 import type { FeedPost } from "../types/Post";
 
-export default function Post({ post }: { post?: FeedPost }) {
+export default function Post({ post }: { post: FeedPost }) {
     return (
-        <>
+        <Link href={`/post/${post.id}`} className="block">
             <div className="hidden md:flex w-full h-95">
                 <ImagePost />
                 <TextPost post={post} />
@@ -16,6 +17,6 @@ export default function Post({ post }: { post?: FeedPost }) {
                 <ImagePost />
                 <TextPostBottom post={post} />
             </div>
-        </>
+        </Link>
     )
 }
