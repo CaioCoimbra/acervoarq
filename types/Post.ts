@@ -12,3 +12,15 @@ export interface Post {
   authorId: string
   createdAt: Date
 }
+
+export type FeedPost = Pick<
+  Post,
+  | "id"
+  | "nome"
+  | "autores"
+  | "dataConclusao"
+  | "localizacao"
+  | "categoria"
+  | "descricaoResumida"
+  | "imagens"
+>
