@@ -40,6 +40,9 @@ export default async function updatePost(
       return res.status(400).json({ error: "Dados inválidos." });
     }
     body = req.body;
+    if (!stringValue(body.nome) || !stringValue(body.descricaoResumida)) {
+      return res.status(422).json({ error: "Nome e descrição resumida são obrigatórios." });
+    }
   }
 
   try {

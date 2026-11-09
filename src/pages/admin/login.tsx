@@ -66,6 +66,7 @@ export default function Login() {
                                 id="login-password"
                                 name="password"
                                 type="password"
+                                minLength={8}
                                 autoComplete="current-password"
                                 required
                                 value={password}

@@ -65,6 +65,16 @@ describe("POST /api/posts", () => {
     expect(postModel.create).not.toHaveBeenCalled();
   });
 
+  it("returns 422 when the name or short description is empty", async () => {
+    auth.mockResolvedValue({ userId: "user-1" });
+    const res = makeResponse();
+
+    await createPost(makeRequest({ ...postFields, descricaoResumida: "  " }), res);
+
+    expect(res.status).toHaveBeenCalledWith(422);
+    expect(postModel.create).not.toHaveBeenCalled();
+  });
+
   it("returns 405 for methods other than POST", async () => {
     const res = makeResponse();
 

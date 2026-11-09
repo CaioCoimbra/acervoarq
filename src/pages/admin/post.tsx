@@ -50,7 +50,7 @@ export default function Post({ post }: { post?: PostDetails }) {
                         <div className="flex flex-col md:w-1/2 gap-3">
                             <div className={divInputStyle}>
                                 <label htmlFor="nome">Nome do Projeto</label>
-                                <input id="nome" name="nome" type="text" defaultValue={post?.nome ?? ""} className={inputStyle} placeholder="Ex: UNDB" />
+                                <input id="nome" name="nome" type="text" required defaultValue={post?.nome ?? ""} className={inputStyle} placeholder="Ex: UNDB" />
                             </div>
                             <div className={divInputStyle}>
                                 <label htmlFor="autores">Autores</label>
@@ -91,7 +91,7 @@ export default function Post({ post }: { post?: PostDetails }) {
                                     </div>
                                 </div>
                             </div>
-                            <textarea id="descricaoResumida" name="descricaoResumida" defaultValue={post?.descricaoResumida ?? ""} className={`${inputStyle} h-full resize-none min-h-60`} placeholder="Fale mais sobre o projeto..." />
+                            <textarea id="descricaoResumida" name="descricaoResumida" required defaultValue={post?.descricaoResumida ?? ""} className={`${inputStyle} h-full resize-none min-h-60`} placeholder="Fale mais sobre o projeto..." />
                             <label htmlFor="descricao">Descrição completa</label>
                             <textarea id="descricao" name="descricao" defaultValue={post?.descricao ?? ""} className={`${inputStyle} h-full resize-none min-h-60`} placeholder="Descrição completa do projeto..." />
                         </div>

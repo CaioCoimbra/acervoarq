@@ -41,6 +41,8 @@ describe('Formulário de novo projeto (caracterização)', () => {
         expect(screen.getByPlaceholderText('Área construída (opcional)')).toBeTruthy()
         expect(screen.getByPlaceholderText('URL da imagem (opcional)')).toBeTruthy()
         expect(screen.getByPlaceholderText('Descrição completa do projeto...')).toBeTruthy()
+        expect(screen.getByPlaceholderText('Ex: UNDB')).toHaveAttribute('required')
+        expect(screen.getByPlaceholderText('Fale mais sobre o projeto...')).toHaveAttribute('required')
     })
 
     it('mantém a explicação aberta inicialmente e permite ocultá-la e reabri-la', () => {
@@ -99,5 +101,18 @@ describe('Formulário de novo projeto (caracterização)', () => {
                 descricao: 'Descrição longa.',
             }),
         }))
+    })
+
+    it('exibe erros de validação da API', async () => {
+        vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+            ok: false,
+            json: async () => ({ error: 'Nome e descrição resumida são obrigatórios.' }),
+        }))
+        render(<Post />)
+        fireEvent.change(screen.getByPlaceholderText('Ex: UNDB'), { target: { value: 'Casa de Vidro' } })
+        fireEvent.change(screen.getByPlaceholderText('Fale mais sobre o projeto...'), { target: { value: 'Descrição curta' } })
+        fireEvent.click(screen.getByRole('button', { name: 'Enviar' }))
+
+        expect(await screen.findByRole('alert')).toHaveTextContent('Nome e descrição resumida são obrigatórios.')
     })
 })

@@ -89,4 +89,14 @@ describe("PUT /api/posts/[id]", () => {
     expect(res.status).toHaveBeenCalledWith(403);
     expect(postModel.update).not.toHaveBeenCalled();
   });
+
+  it("returns 422 when the project name is empty", async () => {
+    auth.mockResolvedValue({ userId: "user-1" });
+    const res = makeResponse();
+
+    await updatePost(makeRequest({ ...fields, nome: " " }), res);
+
+    expect(res.status).toHaveBeenCalledWith(422);
+    expect(postModel.update).not.toHaveBeenCalled();
+  });
 });

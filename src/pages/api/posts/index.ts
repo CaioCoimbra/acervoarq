@@ -33,16 +33,22 @@ export default async function createPost(
     return res.status(400).json({ error: "Dados inválidos." });
   }
 
+  const nome = stringValue(req.body.nome);
+  const descricaoResumida = stringValue(req.body.descricaoResumida);
+  if (!nome || !descricaoResumida) {
+    return res.status(422).json({ error: "Nome e descrição resumida são obrigatórios." });
+  }
+
   try {
     const post = await prisma.post.create({
       data: {
-        nome: stringValue(req.body.nome),
+        nome,
         autores: stringValue(req.body.autores),
         dataConclusao: optionalString(req.body.dataConclusao),
         localizacao: optionalString(req.body.localizacao),
         categoria: optionalString(req.body.categoria),
         area: optionalString(req.body.area),
-        descricaoResumida: stringValue(req.body.descricaoResumida),
+        descricaoResumida,
         descricao: stringValue(req.body.descricao),
         imagens: optionalString(req.body.imagens),
         authorId: session.userId,

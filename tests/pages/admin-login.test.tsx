@@ -23,6 +23,7 @@ describe('Login (caracterização)', () => {
         expect(screen.getByRole('heading', { name: 'Login' })).toBeTruthy()
         expect(screen.getByLabelText('Login').getAttribute('type')).toBe('email')
         expect(screen.getByLabelText('Senha').getAttribute('type')).toBe('password')
+        expect(screen.getByLabelText('Senha').getAttribute('minlength')).toBe('8')
         expect(screen.getByRole('button', { name: 'Entrar' })).toBeTruthy()
         expect(container.querySelector('form')).not.toBeNull()
     })
