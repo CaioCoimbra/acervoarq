@@ -11,13 +11,13 @@ A entidade central é o **Post/Projeto** de acervo. Campos validados no formulá
 - `dataConclusao` — "Data de Conclusão"
 - `localizacao` — endereço (ex.: "Av. Coronel Colares Moreira, 443A — São Luís - MA")
 - `categoria` — ex.: "Universidade"
-- `area` — exibida na página de detalhe (não presente no formulário; incluir como campo opcional no modelo e, se trivial, no formulário)
+- `area` — área construída, opcional no formulário e exibida na página de detalhe
 - `descricaoResumida` — texto curto de apresentação usado na home (o tooltip do formulário explica seu papel)
 - `descricao` — texto longo exibido na página de detalhe
-- `imagens` — URLs das imagens (componente `ImagesPost`)
+- `imagens` — URLs das imagens, uma por linha; a galeria aceita várias e mantém o fallback quando vazio
 - `authorId` — usuário criador (novo; requisito de posse/RF13)
 
-Páginas já existentes (apenas UI estática, a ser conectada): `/` (feed), `/post/[id]` (detalhe), `/admin/login` (login admin), `/admin/post` (formulário de criação). `TextoExplicativo.tsx` é um componente informativo com imagem do repositório — **caracterizar como está, não modificar**.
+Páginas existentes: `/` (feed), `/post/[id]` (detalhe), `/admin/login`, `/admin/register`, `/admin/post` (criação) e `/admin/post/[id]` (edição). `TextoExplicativo.tsx` é um componente informativo com imagem do repositório — **caracterizar como está, não modificar**.
 
 ## Regras de execução (obrigatórias)
 
@@ -47,9 +47,9 @@ Páginas já existentes (apenas UI estática, a ser conectada): `/` (feed), `/po
 - [x] **A.4** Caracterização de `components/Post.tsx`: subcomponente renderizado por tipo de props.
 - [x] **A.5** Caracterização de `components/Header.tsx` + `HeaderSearch.tsx`: logo, busca, links.
 - [x] **A.6** Caracterização de `components/Nav.tsx`, `NavItem.tsx`, `NavItemMenu.tsx`: itens; comportamento do submenu.
-- [x] **A.7** Caracterização de `components/Main.tsx` + `src/pages/index.tsx`: Header + título + children; estado mockado atual documentado.
-- [x] **A.8** Caracterização de `components/TextoExplicativo.tsx` + página `/admin/post`: formulário renderiza campos nome, autores, data de conclusão, localização, categoria, descrição resumida, textarea, botões Cancelar/Enviar; tooltip de descrição resumida alterna visibilidade (estado `showExplicacao`).
-- [x] **A.9** Caracterização de `/post/[id]`: renderiza metadados (Autor, Data, Localização, Categoria, Área), descrição e `ImagePost`; conteúdo hardcoded atual documentado.
+- [x] **A.7** Caracterização de `components/Main.tsx` + `src/pages/index.tsx`: Header + título + cards; feed paginado e navegação entre páginas.
+- [x] **A.8** Caracterização de `components/TextoExplicativo.tsx` + página `/admin/post`: formulário renderiza nome, autores, data, localização, categoria, área, uma ou mais imagens (uma URL por linha), descrições e ações; tooltip de descrição resumida alterna visibilidade (`showExplicacao`).
+- [x] **A.9** Caracterização de `/post/[id]`: renderiza dados do projeto, metadados, descrição e galeria com imagens persistidas; id inexistente → 404.
 - [x] **A.10** Caracterização de `/admin/login`: formulário de login renderiza (campos + botão), comportamento atual do submit.
 - [x] **A.11** Caracterização de `ExplorarModalDesktop/Mobile`: renderização e abertura/fechamento atuais.
 - [x] **A.12** Gate da Fase A: `npm test` 100% verde + `npm run build` verde + commit `test: rede de caracterização do código existente`.
@@ -111,6 +111,17 @@ Páginas já existentes (apenas UI estática, a ser conectada): `/` (feed), `/po
 - [x] **RF14 — Validações**: nome e descricaoResumida obrigatórios, email formato válido, senha ≥ 8; erros na UI (front + API).
 - [x] **RF15 — E2E manual**: cadastro → login (via `/admin/login`) → criar post (via `/admin/post`) → ver no feed → detalhe → editar → excluir → logout.
 - [x] Gate final: `npm test` 100% verde; `npm run build` verde; commit final.
+
+## Fase G — Melhorias de front-end com alto impacto e baixo custo
+
+Reutilizar páginas, componentes e Tailwind existentes. Sem dependências novas, redesenho amplo ou conteúdo fictício. Executar um item por vez, com teste e commit.
+
+- [x] **G.1 — Acesso contextual** *(custo baixo · impacto alto)*: cabeçalho oferece início, cadastro, login, criação e logout; login retorna à rota protegida solicitada; edição e exclusão aparecem apenas ao autor. Aceite: ações disponíveis nos contextos corretos e rotas protegidas redirecionam ao login.
+- [x] **G.2 — Imagens reais e múltiplas** *(custo baixo · impacto alto)*: cards usam as imagens persistidas no banco; formulário aceita uma URL por linha; galeria mostra todas as imagens sem duplicar a principal. Aceite: URL única, várias URLs e ausência de imagens têm renderização válida.
+- [x] **G.3 — Erros de login compreensíveis** *(custo baixo · impacto alto)*: diferenciar credenciais inválidas, indisponibilidade do serviço e falha de conexão. Aceite: erro fica visível junto ao formulário e a navegação só ocorre após sucesso.
+- [ ] **G.4 — Feed vazio acionável** *(custo baixo · impacto alto)*: quando não houver projetos, explicar o estado e oferecer o próximo passo; pessoa autenticada pode cadastrar e visitante pode entrar ou criar conta. Aceite: estado não parece falha e cada CTA tem destino válido.
+- [ ] **G.5 — Feedback de gravação** *(custo baixo · impacto alto)*: criação e edição mostram estado de envio, impedem submissões duplicadas e preservam os dados com erro; exclusão informa falha sem perder o contexto. Aceite: cada ação tem resposta visível para sucesso, envio e erro.
+- [ ] **G.6 — Recuperação de rota** *(custo baixo · impacto médio)*: página 404 com ação de retorno ao feed. Aceite: rota inexistente oferece navegação de volta sem alterar o comportamento das páginas válidas.
 
 ---
 
