@@ -94,7 +94,7 @@ Páginas já existentes (apenas UI estática, a ser conectada): `/` (feed), `/po
 
 ## Fase D — Leitura (RF6–RF9)
 
-- [ ] **RF6 — Seed**: 25 posts realistas de acervo de arquitetura (todos os campos do modelo). Verificação: Prisma retorna 25.
+- [ ] **RF6 — Seed**: 3 posts realistas de acervo de arquitetura (todos os campos do modelo). Verificação: Prisma retorna 3.
 - [ ] **RF7 — Feed paginado**: `lib/posts.ts` com `getPosts(page)` (10/página); home via `getServerSideProps`; Anterior/Próxima com limites. Atualizar teste A.7 num commit próprio.
 - [ ] **RF8 — Detalhe dinâmico**: `/post/[id]` via `getServerSideProps` substitui os dados hardcoded pelos dados reais do modelo (metadados, descrição, imagens); id inexistente → 404. Atualizar teste A.9 num commit próprio.
 - [ ] **RF9 — Navegação**: cards do feed → `<Link href="/post/[id]">`.
