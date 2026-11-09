@@ -1,5 +1,7 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+
+const { push } = vi.hoisted(() => ({ push: vi.fn() }))
 
 vi.mock('../../src/lib/prisma', () => ({
     prisma: { post: { findUnique: vi.fn() } },
@@ -9,6 +11,10 @@ vi.mock('../../components/Header', () => ({
 }))
 vi.mock('../../components/ImagesPost', () => ({
     default: ({ images }: { images: string | null }) => <div data-testid="image-post">{images}</div>,
+}))
+vi.mock('next/router', () => ({ useRouter: () => ({ push }) }))
+vi.mock('next/link', () => ({
+    default: ({ href, children }: { href: string; children: React.ReactNode }) => <a href={href}>{children}</a>,
 }))
 
 import Post, { getServerSideProps } from '../../src/pages/post/[id]'
@@ -31,6 +37,10 @@ const post = {
 
 describe('Página de projeto', () => {
     beforeEach(() => vi.clearAllMocks())
+    afterEach(() => {
+        vi.restoreAllMocks()
+        vi.unstubAllGlobals()
+    })
 
     it('renderiza os metadados, descrição e imagem do projeto recebido', () => {
         render(<Post post={post} />)
@@ -62,5 +72,32 @@ describe('Página de projeto', () => {
         const result = await getServerSideProps({ params: { id: 'inexistente' } } as never)
 
         expect(result).toEqual({ notFound: true })
+    })
+
+    it('pede confirmação antes de excluir o projeto e retorna ao feed', async () => {
+        const confirm = vi.spyOn(window, 'confirm').mockReturnValue(true)
+        const fetchMock = vi.fn().mockResolvedValue({ ok: true })
+        vi.stubGlobal('fetch', fetchMock)
+        render(<Post post={post} />)
+
+        fireEvent.click(screen.getByRole('button', { name: 'Excluir projeto' }))
+
+        await waitFor(() => expect(fetchMock).toHaveBeenCalledWith(
+            '/api/posts/casa-de-vidro',
+            expect.objectContaining({ method: 'DELETE' }),
+        ))
+        expect(confirm).toHaveBeenCalled()
+        await waitFor(() => expect(push).toHaveBeenCalledWith('/'))
+    })
+
+    it('não exclui quando a confirmação é recusada', () => {
+        vi.spyOn(window, 'confirm').mockReturnValue(false)
+        const fetchMock = vi.fn()
+        vi.stubGlobal('fetch', fetchMock)
+        render(<Post post={post} />)
+
+        fireEvent.click(screen.getByRole('button', { name: 'Excluir projeto' }))
+
+        expect(fetchMock).not.toHaveBeenCalled()
     })
 })

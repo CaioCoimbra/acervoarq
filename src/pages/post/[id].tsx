@@ -1,4 +1,7 @@
 import type { GetServerSideProps } from "next";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import Header from "../../../components/Header";
 import ImagePost from "../../../components/ImagesPost";
 import { Main } from "../../../components/Main";
@@ -10,10 +13,33 @@ interface PostPageProps {
 }
 
 export default function Post({ post }: PostPageProps) {
+    const router = useRouter();
+    const [error, setError] = useState<string | null>(null);
+
+    async function handleDelete(): Promise<void> {
+        if (!window.confirm("Deseja excluir este projeto?")) return;
+
+        try {
+            const response = await fetch(`/api/posts/${post.id}`, { method: "DELETE" });
+            if (!response.ok) {
+                setError("Não foi possível excluir o projeto.");
+                return;
+            }
+            await router.push("/");
+        } catch {
+            setError("Não foi possível excluir o projeto.");
+        }
+    }
+
     return (
         <>
             <Header />
             <Main title={post.nome}>
+                <div className="flex justify-end gap-4">
+                    <Link href={`/admin/post/${post.id}`}>Editar projeto</Link>
+                    <button type="button" onClick={handleDelete}>Excluir projeto</button>
+                </div>
+                {error && <p role="alert">{error}</p>}
                 <div className="flex flex-col gap-3">
                     <div className="flex flex-col md:flex-row">
                         <ImagePost images={post.imagens} />

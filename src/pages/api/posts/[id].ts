@@ -21,8 +21,8 @@ export default async function updatePost(
   req: NextApiRequest,
   res: NextApiResponse<UpdatePostResponse>,
 ) {
-  if (req.method !== "PUT") {
-    res.setHeader("Allow", "PUT");
+  if (req.method !== "PUT" && req.method !== "DELETE") {
+    res.setHeader("Allow", "PUT, DELETE");
     return res.status(405).json({ error: "Método não permitido." });
   }
 
@@ -30,7 +30,28 @@ export default async function updatePost(
   if (!session) return;
 
   const id = req.query.id;
-  if (typeof id !== "string" || !isRecord(req.body)) {
+  if (typeof id !== "string") {
+    return res.status(400).json({ error: "Dados inválidos." });
+  }
+
+  if (req.method === "DELETE") {
+    try {
+      const post = await prisma.post.delete({ where: { id }, select: { id: true } });
+      return res.status(200).json({ post: { id: post.id } });
+    } catch (error) {
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "code" in error &&
+        error.code === "P2025"
+      ) {
+        return res.status(404).json({ error: "Projeto não encontrado." });
+      }
+      return res.status(500).json({ error: "Erro interno." });
+    }
+  }
+
+  if (!isRecord(req.body)) {
     return res.status(400).json({ error: "Dados inválidos." });
   }
 
