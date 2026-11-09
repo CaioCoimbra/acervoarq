@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Header from "../../../components/Header";
-import Main from "../../../components/Main";
+import { Main } from "../../../components/Main";
 import TextoExplicativo from "../../../components/TextoExplicativo";
 import Image from "next/image";
 import { IconeX } from "../../../components/Icons";
