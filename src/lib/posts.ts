@@ -9,11 +9,12 @@ export interface PostsPage {
   totalPages: number;
 }
 
-export async function getPost(id: string): Promise<PostDetails | null> {
+export async function getPost(id: string): Promise<(PostDetails & { authorId: string }) | null> {
   return prisma.post.findUnique({
     where: { id },
     select: {
       id: true,
+      authorId: true,
       nome: true,
       autores: true,
       dataConclusao: true,

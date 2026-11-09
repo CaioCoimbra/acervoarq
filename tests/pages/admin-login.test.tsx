@@ -9,6 +9,9 @@ vi.mock('../../components/Header', () => ({
 vi.mock('next/router', () => ({
     useRouter: () => ({ push: mockPush }),
 }))
+vi.mock('next/link', () => ({
+    default: ({ href, children }: { href: string; children: React.ReactNode }) => <a href={href}>{children}</a>,
+}))
 
 import Login from '../../src/pages/admin/login'
 

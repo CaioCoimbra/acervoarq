@@ -10,6 +10,7 @@ vi.mock('next/link', () => ({
 vi.mock('next/image', () => ({
     default: ({ src, alt }: { src: string; alt: string }) => <img src={src} alt={alt} />,
 }))
+vi.mock('next/router', () => ({ useRouter: () => ({ replace: vi.fn() }) }))
 vi.mock('../ExplorarModalMobile', () => ({
     default: ({ ativado }: { ativado: boolean }) => (
         <div data-testid="modal-mobile" data-ativado={String(ativado)} />

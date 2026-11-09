@@ -7,10 +7,12 @@ import TextoExplicativo from "../../../components/TextoExplicativo";
 import Image from "next/image";
 import { IconeX } from "../../../components/Icons";
 import type { PostDetails } from "../../../types/Post";
+import type { GetServerSideProps } from "next";
+import { getSessionUserId, SESSION_COOKIE_NAME } from "../../lib/auth";
 
 type CreatePostResult = { post?: { id: string }; error?: string };
 
-export default function Post({ post }: { post?: PostDetails }) {
+export default function Post({ post, authenticated = false }: { post?: PostDetails; authenticated?: boolean }) {
     const divInputStyle = "flex flex-col gap-2";
     const inputStyle = "bg-zinc-200 rounded-lg pl-3 py-1";
     const [showExplicacao, setShowExplicacao] = useState(true);
@@ -43,7 +45,7 @@ export default function Post({ post }: { post?: PostDetails }) {
 
     return (
         <div>
-            <Header />
+            <Header authenticated={authenticated} />
             <Main title={post ? "Editar Projeto" : "Novo Projeto"}>
                 <form onSubmit={handleSubmit}>
                     <div className="flex flex-col md:flex-row justify-between gap-3">
@@ -99,7 +101,7 @@ export default function Post({ post }: { post?: PostDetails }) {
                     <TextoExplicativo />
                     {error && <p role="alert" className="text-red-700">{error}</p>}
                     <div className="flex gap-5 w-full justify-end">
-                        <Link href="/" className="bg-zinc-200 w-30 h-12 rounded-lg flex items-center justify-center">Cancelar</Link>
+                        <Link href={post ? `/post/${post.id}` : "/"} className="bg-zinc-200 w-30 h-12 rounded-lg flex items-center justify-center">Cancelar</Link>
                         <button type="submit" className="bg-zinc-900 text-white w-30 h-12 rounded-lg">Enviar</button>
                     </div>
                 </form>
@@ -107,3 +109,11 @@ export default function Post({ post }: { post?: PostDetails }) {
         </div>
     );
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ req, resolvedUrl }) => {
+    const userId = await getSessionUserId(req.cookies[SESSION_COOKIE_NAME]);
+    if (!userId) {
+        return { redirect: { destination: `/admin/login?returnTo=${encodeURIComponent(resolvedUrl)}`, permanent: false } };
+    }
+    return { props: { authenticated: true } };
+};

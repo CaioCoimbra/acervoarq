@@ -1,5 +1,10 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { fireEvent, render, screen } from '@testing-library/react'
+import type { ReactNode } from 'react'
+
+vi.mock('next/link', () => ({
+    default: ({ href, children }: { href: string; children: ReactNode }) => <a href={href}>{children}</a>,
+}))
 
 import Nav from '../Nav'
 

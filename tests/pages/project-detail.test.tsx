@@ -24,6 +24,7 @@ const findUnique = prisma.post.findUnique as unknown as ReturnType<typeof vi.fn>
 const imageUrl = 'https://images.example.org/casa-de-vidro.jpg'
 const post = {
     id: 'casa-de-vidro',
+    authorId: 'owner-1',
     nome: 'Casa de Vidro',
     autores: 'Lina Bo Bardi',
     dataConclusao: '1951',
@@ -60,16 +61,17 @@ describe('Página de projeto', () => {
     it('carrega um projeto pelo id da rota', async () => {
         findUnique.mockResolvedValue(post)
 
-        const result = await getServerSideProps({ params: { id: 'casa-de-vidro' } } as never)
+        const result = await getServerSideProps({ params: { id: 'casa-de-vidro' }, req: { cookies: {} } } as never)
 
         expect(findUnique).toHaveBeenCalledWith(expect.objectContaining({ where: { id: 'casa-de-vidro' } }))
-        expect(result).toEqual({ props: { post } })
+        const { authorId, ...publicPost } = post
+        expect(result).toEqual({ props: { post: publicPost, authenticated: false, isOwner: false } })
     })
 
     it('retorna 404 quando o id não existe', async () => {
         findUnique.mockResolvedValue(null)
 
-        const result = await getServerSideProps({ params: { id: 'inexistente' } } as never)
+        const result = await getServerSideProps({ params: { id: 'inexistente' }, req: { cookies: {} } } as never)
 
         expect(result).toEqual({ notFound: true })
     })
@@ -78,7 +80,7 @@ describe('Página de projeto', () => {
         const confirm = vi.spyOn(window, 'confirm').mockReturnValue(true)
         const fetchMock = vi.fn().mockResolvedValue({ ok: true })
         vi.stubGlobal('fetch', fetchMock)
-        render(<Post post={post} />)
+        render(<Post post={post} authenticated isOwner />)
 
         fireEvent.click(screen.getByRole('button', { name: 'Excluir projeto' }))
 
@@ -94,7 +96,7 @@ describe('Página de projeto', () => {
         vi.spyOn(window, 'confirm').mockReturnValue(false)
         const fetchMock = vi.fn()
         vi.stubGlobal('fetch', fetchMock)
-        render(<Post post={post} />)
+        render(<Post post={post} authenticated isOwner />)
 
         fireEvent.click(screen.getByRole('button', { name: 'Excluir projeto' }))
 

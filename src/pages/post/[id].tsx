@@ -6,13 +6,16 @@ import Header from "../../../components/Header";
 import ImagePost from "../../../components/ImagesPost";
 import { Main } from "../../../components/Main";
 import { getPost } from "../../lib/posts";
+import { getSessionUserId, SESSION_COOKIE_NAME } from "../../lib/auth";
 import type { PostDetails } from "../../../types/Post";
 
 interface PostPageProps {
     post: PostDetails;
+    authenticated?: boolean;
+    isOwner?: boolean;
 }
 
-export default function Post({ post }: PostPageProps) {
+export default function Post({ post, authenticated = false, isOwner = false }: PostPageProps) {
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
 
@@ -33,12 +36,12 @@ export default function Post({ post }: PostPageProps) {
 
     return (
         <>
-            <Header />
+            <Header authenticated={authenticated} />
             <Main title={post.nome}>
-                <div className="flex justify-end gap-4">
+                {isOwner && <div className="flex justify-end gap-4">
                     <Link href={`/admin/post/${post.id}`}>Editar projeto</Link>
                     <button type="button" onClick={handleDelete}>Excluir projeto</button>
-                </div>
+                </div>}
                 {error && <p role="alert">{error}</p>}
                 <div className="flex flex-col gap-3">
                     <div className="flex flex-col md:flex-row">
@@ -61,12 +64,14 @@ export default function Post({ post }: PostPageProps) {
     );
 }
 
-export const getServerSideProps: GetServerSideProps<PostPageProps> = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps<PostPageProps> = async ({ params, req }) => {
     const id = params?.id;
     if (typeof id !== "string") return { notFound: true };
 
     const post = await getPost(id);
     if (!post) return { notFound: true };
 
-    return { props: { post } };
+    const { authorId, ...publicPost } = post;
+    const userId = await getSessionUserId(req.cookies[SESSION_COOKIE_NAME]);
+    return { props: { post: publicPost, authenticated: Boolean(userId), isOwner: Boolean(userId && userId === authorId) } };
 };

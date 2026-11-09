@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react"
 import { useRouter } from "next/router"
 
 import Header from "../../../components/Header";
+import Link from "next/link";
 
 export default function Login() {
     const router = useRouter()
@@ -32,7 +33,11 @@ export default function Login() {
                 return
             }
 
-            await router.push("/admin/post")
+            const returnTo = router.query?.returnTo
+            const destination = typeof returnTo === "string" && returnTo.startsWith("/") && !returnTo.startsWith("//")
+                ? returnTo
+                : "/admin/post"
+            await router.push(destination)
         } catch {
             setError("Não foi possível entrar. Tente novamente.")
         } finally {
@@ -79,6 +84,7 @@ export default function Login() {
                     <button type="submit" disabled={submitting} className="bg-black text-white font-semibold py-2 rounded-xl">
                         {submitting ? "Entrando..." : "Entrar"}
                     </button>
+                    <p className="text-center">Ainda não tem conta? <Link className="underline" href="/admin/register">Criar conta</Link></p>
                 </form>
             </main >
             <span className="block h-[6vh]" />

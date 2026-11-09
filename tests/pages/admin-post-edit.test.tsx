@@ -3,6 +3,10 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 const { push } = vi.hoisted(() => ({ push: vi.fn() }));
 vi.mock("../../src/lib/posts", () => ({ getPost: vi.fn() }));
+vi.mock("../../src/lib/auth", () => ({
+  SESSION_COOKIE_NAME: "acervoarq_session",
+  getSessionUserId: vi.fn(),
+}));
 vi.mock("../../components/Header", () => ({ default: () => <header data-testid="header" /> }));
 vi.mock("next/image", () => ({ default: () => null }));
 vi.mock("next/router", () => ({ useRouter: () => ({ push }) }));
@@ -11,10 +15,12 @@ vi.mock("next/link", () => ({
 }));
 
 import { getPost } from "../../src/lib/posts";
+import { getSessionUserId } from "../../src/lib/auth";
 import EditPost, { getServerSideProps } from "../../src/pages/admin/post/[id]";
 
 const post = {
   id: "post-1",
+  authorId: "owner-1",
   nome: "Casa de Vidro",
   autores: "Lina Bo Bardi",
   dataConclusao: "1951",
@@ -41,17 +47,20 @@ describe("Edição de projeto", () => {
 
   it("carrega o projeto indicado pela rota", async () => {
     vi.mocked(getPost).mockResolvedValue(post);
+    vi.mocked(getSessionUserId).mockResolvedValue("owner-1");
 
-    const result = await getServerSideProps({ params: { id: "post-1" } } as never);
+    const result = await getServerSideProps({ params: { id: "post-1" }, req: { cookies: {} } } as never);
 
     expect(getPost).toHaveBeenCalledWith("post-1");
-    expect(result).toEqual({ props: { post } });
+    const { authorId, ...editablePost } = post;
+    expect(result).toEqual({ props: { post: editablePost } });
   });
 
   it("retorna 404 se o projeto não existir", async () => {
     vi.mocked(getPost).mockResolvedValue(null);
 
-    const result = await getServerSideProps({ params: { id: "missing" } } as never);
+    vi.mocked(getSessionUserId).mockResolvedValue("owner-1");
+    const result = await getServerSideProps({ params: { id: "missing" }, req: { cookies: {} } } as never);
 
     expect(result).toEqual({ notFound: true });
   });

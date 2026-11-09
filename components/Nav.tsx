@@ -1,10 +1,11 @@
 import NavItem from "./NavItem";
+import Link from "next/link";
 
 export default function Nav() {
     return (
         <nav>
             <ul className="hidden md:flex gap-11 text-lg">
-                <NavItem texto="Início" />
+                <li className="cursor-pointer hover:text-white"><Link href="/">Início</Link></li>
                 <NavItem texto="Projetos & Ações ▾" modal >
                     <li>Futuros Possíveis</li>
                     <li>Processos e Experimentos</li>

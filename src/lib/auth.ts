@@ -1,4 +1,4 @@
-import { SignJWT } from "jose"
+import { jwtVerify, SignJWT } from "jose"
 
 export const SESSION_COOKIE_NAME = "acervoarq_session"
 export const SESSION_DURATION_SECONDS = 7 * 24 * 60 * 60
@@ -20,6 +20,17 @@ export async function createSessionToken(userId: string): Promise<string> {
     .setIssuedAt()
     .setExpirationTime(`${SESSION_DURATION_SECONDS}s`)
     .sign(getJwtSecretKey())
+}
+
+export async function getSessionUserId(token?: string): Promise<string | null> {
+  if (!token) return null
+
+  try {
+    const { payload } = await jwtVerify(token, getJwtSecretKey(), { algorithms: ["HS256"] })
+    return payload.sub ?? null
+  } catch {
+    return null
+  }
 }
 
 export function serializeSessionCookie(token: string): string {

@@ -62,11 +62,11 @@ describe('Main e página inicial (caracterização)', () => {
         postModel.count.mockResolvedValue(12)
         postModel.findMany.mockResolvedValue(posts)
 
-        const result = await getServerSideProps({ query: { page: '2' } } as never)
+        const result = await getServerSideProps({ query: { page: '2' }, req: { cookies: {} } } as never)
 
         expect(postModel.findMany).toHaveBeenCalledWith(expect.objectContaining({ skip: 10, take: 10 }))
         expect(result).toEqual({
-            props: { posts, page: 2, totalPages: 2 },
+            props: { posts, page: 2, totalPages: 2, authenticated: false },
         })
     })
 
@@ -74,11 +74,11 @@ describe('Main e página inicial (caracterização)', () => {
         postModel.count.mockResolvedValue(12)
         postModel.findMany.mockResolvedValue([makePost('11'), makePost('12')])
 
-        const result = await getServerSideProps({ query: { page: '99' } } as never)
+        const result = await getServerSideProps({ query: { page: '99' }, req: { cookies: {} } } as never)
 
         expect(postModel.findMany).toHaveBeenCalledWith(expect.objectContaining({ skip: 10, take: 10 }))
         expect(result).toEqual({
-            props: { posts: [makePost('11'), makePost('12')], page: 2, totalPages: 2 },
+            props: { posts: [makePost('11'), makePost('12')], page: 2, totalPages: 2, authenticated: false },
         })
     })
 
