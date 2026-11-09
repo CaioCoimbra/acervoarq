@@ -4,18 +4,22 @@ export const SESSION_COOKIE_NAME = "acervoarq_session"
 export const SESSION_DURATION_SECONDS = 7 * 24 * 60 * 60
 export const DUMMY_PASSWORD_HASH = "$2b$12$wwBSNaPY6mhKAqc2NqTZGuO84vDD4DwFugM6NufYn/fCAYefVilZ."
 
-export async function createSessionToken(userId: string): Promise<string> {
+export function getJwtSecretKey(): Uint8Array {
   const secret = process.env.JWT_SECRET
   if (!secret || Buffer.byteLength(secret, "utf8") < 32) {
     throw new Error("JWT_SECRET must contain at least 32 bytes.")
   }
 
+  return new TextEncoder().encode(secret)
+}
+
+export async function createSessionToken(userId: string): Promise<string> {
   return new SignJWT({})
     .setProtectedHeader({ alg: "HS256" })
     .setSubject(userId)
     .setIssuedAt()
     .setExpirationTime(`${SESSION_DURATION_SECONDS}s`)
-    .sign(new TextEncoder().encode(secret))
+    .sign(getJwtSecretKey())
 }
 
 export function serializeSessionCookie(token: string): string {
