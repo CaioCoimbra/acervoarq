@@ -2,6 +2,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import type { NextApiRequest, NextApiResponse } from "next"
 import { jwtVerify } from "jose"
+import { serializeSessionCookie } from "../../src/lib/auth"
 
 vi.mock("../../src/lib/prisma", () => ({
   prisma: {
@@ -48,6 +49,22 @@ describe("POST /api/auth/login", () => {
   afterEach(() => {
     if (originalJwtSecret === undefined) delete process.env.JWT_SECRET
     else process.env.JWT_SECRET = originalJwtSecret
+  })
+
+  it("allows HTTP session cookies when Docker explicitly disables Secure", () => {
+    const originalNodeEnv = process.env.NODE_ENV
+    const originalSecureSetting = process.env.SESSION_COOKIE_SECURE
+    Reflect.set(process.env, "NODE_ENV", "production")
+    process.env.SESSION_COOKIE_SECURE = "false"
+
+    try {
+      expect(serializeSessionCookie("session-token")).not.toContain("Secure")
+    } finally {
+      if (originalNodeEnv === undefined) Reflect.deleteProperty(process.env, "NODE_ENV")
+      else Reflect.set(process.env, "NODE_ENV", originalNodeEnv)
+      if (originalSecureSetting === undefined) delete process.env.SESSION_COOKIE_SECURE
+      else process.env.SESSION_COOKIE_SECURE = originalSecureSetting
+    }
   })
 
   it("returns 200 with a signed JWT in an HttpOnly cookie for valid credentials", async () => {

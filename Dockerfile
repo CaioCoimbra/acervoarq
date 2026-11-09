@@ -18,6 +18,7 @@ RUN npx prisma generate && npm run build
 
 ENV NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1 \
+    SESSION_COOKIE_SECURE=false \
     DATABASE_URL=file:/data/acervoarq.db \
     HOSTNAME=0.0.0.0 \
     PORT=3000

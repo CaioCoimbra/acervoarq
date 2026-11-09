@@ -21,6 +21,7 @@ docker run --name acervoarq \
 ```
 
 Abra [http://localhost:3000](http://localhost:3000). O banco SQLite e os dados permanecem no volume `acervoarq-data` entre reinicializações.
+O Docker usa cookies compatíveis com HTTP local; se servir o app por HTTPS, defina `SESSION_COOKIE_SECURE=true` no `docker run`.
 
 ## URLs da aplicação
 

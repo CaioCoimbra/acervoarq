@@ -42,7 +42,7 @@ export function serializeSessionCookie(token: string): string {
     `Max-Age=${SESSION_DURATION_SECONDS}`,
   ]
 
-  if (process.env.NODE_ENV === "production") {
+  if (shouldUseSecureCookie()) {
     cookie.push("Secure")
   }
 
@@ -58,9 +58,15 @@ export function serializeClearedSessionCookie(): string {
     "Max-Age=0",
   ]
 
-  if (process.env.NODE_ENV === "production") {
+  if (shouldUseSecureCookie()) {
     cookie.push("Secure")
   }
 
   return cookie.join("; ")
+}
+
+function shouldUseSecureCookie(): boolean {
+  if (process.env.SESSION_COOKIE_SECURE === "true") return true
+  if (process.env.SESSION_COOKIE_SECURE === "false") return false
+  return process.env.NODE_ENV === "production"
 }
