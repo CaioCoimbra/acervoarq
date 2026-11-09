@@ -6,10 +6,11 @@ import { Main } from "../../../components/Main";
 import TextoExplicativo from "../../../components/TextoExplicativo";
 import Image from "next/image";
 import { IconeX } from "../../../components/Icons";
+import type { PostDetails } from "../../../types/Post";
 
 type CreatePostResult = { post?: { id: string }; error?: string };
 
-export default function Post() {
+export default function Post({ post }: { post?: PostDetails }) {
     const divInputStyle = "flex flex-col gap-2";
     const inputStyle = "bg-zinc-200 rounded-lg pl-3 py-1";
     const [showExplicacao, setShowExplicacao] = useState(true);
@@ -22,8 +23,8 @@ export default function Post() {
 
         try {
             const formData = new FormData(event.currentTarget);
-            const response = await fetch("/api/posts", {
-                method: "POST",
+            const response = await fetch(post ? `/api/posts/${post.id}` : "/api/posts", {
+                method: post ? "PUT" : "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(Object.fromEntries(formData.entries())),
             });
@@ -43,37 +44,37 @@ export default function Post() {
     return (
         <div>
             <Header />
-            <Main title="Novo Projeto">
+            <Main title={post ? "Editar Projeto" : "Novo Projeto"}>
                 <form onSubmit={handleSubmit}>
                     <div className="flex flex-col md:flex-row justify-between gap-3">
                         <div className="flex flex-col md:w-1/2 gap-3">
                             <div className={divInputStyle}>
                                 <label htmlFor="nome">Nome do Projeto</label>
-                                <input id="nome" name="nome" type="text" className={inputStyle} placeholder="Ex: UNDB" />
+                                <input id="nome" name="nome" type="text" defaultValue={post?.nome ?? ""} className={inputStyle} placeholder="Ex: UNDB" />
                             </div>
                             <div className={divInputStyle}>
                                 <label htmlFor="autores">Autores</label>
-                                <input id="autores" name="autores" type="text" className={inputStyle} placeholder="Dê os devidos créditos" />
+                                <input id="autores" name="autores" type="text" defaultValue={post?.autores ?? ""} className={inputStyle} placeholder="Dê os devidos créditos" />
                             </div>
                             <div className={divInputStyle}>
                                 <label htmlFor="dataConclusao">Data de Conclusão</label>
-                                <input id="dataConclusao" name="dataConclusao" type="text" className={inputStyle} placeholder="Data de Conclusão" />
+                                <input id="dataConclusao" name="dataConclusao" type="text" defaultValue={post?.dataConclusao ?? ""} className={inputStyle} placeholder="Data de Conclusão" />
                             </div>
                             <div className={divInputStyle}>
                                 <label htmlFor="localizacao">Localização</label>
-                                <input id="localizacao" name="localizacao" type="text" className={inputStyle} placeholder="Ex: Av. Coronel Colares Moreira, 443A - Jardim Renascença, São Luís - MA" />
+                                <input id="localizacao" name="localizacao" type="text" defaultValue={post?.localizacao ?? ""} className={inputStyle} placeholder="Ex: Av. Coronel Colares Moreira, 443A - Jardim Renascença, São Luís - MA" />
                             </div>
                             <div className={divInputStyle}>
                                 <label htmlFor="categoria">Categoria</label>
-                                <input id="categoria" name="categoria" type="text" className={inputStyle} placeholder="Ex: Universidade" />
+                                <input id="categoria" name="categoria" type="text" defaultValue={post?.categoria ?? ""} className={inputStyle} placeholder="Ex: Universidade" />
                             </div>
                             <div className={divInputStyle}>
                                 <label htmlFor="area">Área</label>
-                                <input id="area" name="area" type="text" className={inputStyle} placeholder="Área construída (opcional)" />
+                                <input id="area" name="area" type="text" defaultValue={post?.area ?? ""} className={inputStyle} placeholder="Área construída (opcional)" />
                             </div>
                             <div className={divInputStyle}>
                                 <label htmlFor="imagens">Imagem</label>
-                                <input id="imagens" name="imagens" type="text" className={inputStyle} placeholder="URL da imagem (opcional)" />
+                                <input id="imagens" name="imagens" type="text" defaultValue={post?.imagens ?? ""} className={inputStyle} placeholder="URL da imagem (opcional)" />
                             </div>
                         </div>
                         <div className="flex flex-col md:w-1/2 gap-3">
@@ -90,9 +91,9 @@ export default function Post() {
                                     </div>
                                 </div>
                             </div>
-                            <textarea id="descricaoResumida" name="descricaoResumida" className={`${inputStyle} h-full resize-none min-h-60`} placeholder="Fale mais sobre o projeto..." />
+                            <textarea id="descricaoResumida" name="descricaoResumida" defaultValue={post?.descricaoResumida ?? ""} className={`${inputStyle} h-full resize-none min-h-60`} placeholder="Fale mais sobre o projeto..." />
                             <label htmlFor="descricao">Descrição completa</label>
-                            <textarea id="descricao" name="descricao" className={`${inputStyle} h-full resize-none min-h-60`} placeholder="Descrição completa do projeto..." />
+                            <textarea id="descricao" name="descricao" defaultValue={post?.descricao ?? ""} className={`${inputStyle} h-full resize-none min-h-60`} placeholder="Descrição completa do projeto..." />
                         </div>
                     </div>
                     <TextoExplicativo />
