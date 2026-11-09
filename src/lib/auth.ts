@@ -33,3 +33,19 @@ export function serializeSessionCookie(token: string): string {
 
   return cookie.join("; ")
 }
+
+export function serializeClearedSessionCookie(): string {
+  const cookie = [
+    `${SESSION_COOKIE_NAME}=`,
+    "HttpOnly",
+    "Path=/",
+    "SameSite=Lax",
+    "Max-Age=0",
+  ]
+
+  if (process.env.NODE_ENV === "production") {
+    cookie.push("Secure")
+  }
+
+  return cookie.join("; ")
+}
