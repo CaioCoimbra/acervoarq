@@ -1,11 +1,11 @@
 import { describe, expect, it, vi } from 'vitest'
 import { fireEvent, render, screen } from '@testing-library/react'
 
-vi.mock('../../../components/Header', () => ({
+vi.mock('../../components/Header', () => ({
     default: () => <header data-testid="header" />,
 }))
 
-import Login from './login'
+import Login from '../../src/pages/admin/login'
 
 describe('Login (caracterização)', () => {
     it('renderiza os campos de email e senha e o botão Entrar', () => {

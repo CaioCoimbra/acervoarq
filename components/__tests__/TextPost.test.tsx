@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 
-import TextPost from "@/components/TextPost";
+import TextPost from "../TextPost";
 
 describe("TextPost (characterization)", () => {
   it("renders TextPostTop and TextPostBottom composed vertically", () => {

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { render } from '@testing-library/react'
 
-import ImagePost from '@/components/ImagesPost'
+import ImagePost from '../ImagesPost'
 
 // A.3 — Caracterização de components/ImagesPost.tsx
 //

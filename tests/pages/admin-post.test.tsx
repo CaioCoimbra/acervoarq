@@ -1,15 +1,15 @@
 import { describe, expect, it, vi } from 'vitest'
 import { fireEvent, render, screen } from '@testing-library/react'
 
-vi.mock('../../../components/Header', () => ({
+vi.mock('../../components/Header', () => ({
     default: () => <header data-testid="header" />,
 }))
 vi.mock('next/image', () => ({
     default: ({ src, alt }: { src: string; alt: string }) => <img src={src} alt={alt} />,
 }))
 
-import Post from './post'
-import TextoExplicativo from '../../../components/TextoExplicativo'
+import Post from '../../src/pages/admin/post'
+import TextoExplicativo from '../../components/TextoExplicativo'
 
 describe('Formulário de novo projeto (caracterização)', () => {
     it('renderiza os campos, a área explicativa e os botões atuais', () => {

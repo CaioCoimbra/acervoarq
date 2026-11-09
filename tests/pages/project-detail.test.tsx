@@ -1,14 +1,14 @@
 import { describe, expect, it, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 
-vi.mock('../../../components/Header', () => ({
+vi.mock('../../components/Header', () => ({
     default: () => <header data-testid="header" />,
 }))
-vi.mock('../../../components/ImagesPost', () => ({
+vi.mock('../../components/ImagesPost', () => ({
     default: () => <div data-testid="image-post" />,
 }))
 
-import Post from './[id]'
+import Post from '../../src/pages/post/[id]'
 
 describe('Página de projeto (caracterização)', () => {
     it('renderiza metadados, descrição hardcoded e galeria de imagens', () => {
