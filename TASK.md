@@ -41,22 +41,22 @@ Páginas já existentes (apenas UI estática, a ser conectada): `/` (feed), `/po
 
 > Nenhum arquivo existente pode ser alterado nesta fase — apenas testado. Esses testes devem permanecer verdes em TODAS as fases; quebra = regressão = parar e corrigir.
 
-- [ ] **A.1** Setup: Vitest + @testing-library/react + @testing-library/user-event + jsdom; alias `@/`; teste canário. Verificação: `npm test` passa.
-- [ ] **A.2** Caracterização de `components/TextPost.tsx` (+ `TextPostTop`, `TextPostBottom`): título, autor, corpo pelas props.
-- [ ] **A.3** Caracterização de `components/ImagesPost.tsx`: renderização de imagem(ns) pelas props.
-- [ ] **A.4** Caracterização de `components/Post.tsx`: subcomponente renderizado por tipo de props.
-- [ ] **A.5** Caracterização de `components/Header.tsx` + `HeaderSearch.tsx`: logo, busca, links.
-- [ ] **A.6** Caracterização de `components/Nav.tsx`, `NavItem.tsx`, `NavItemMenu.tsx`: itens; comportamento do submenu.
-- [ ] **A.7** Caracterização de `components/Main.tsx` + `src/pages/index.tsx`: Header + título + children; estado mockado atual documentado.
-- [ ] **A.8** Caracterização de `components/TextoExplicativo.tsx` + página `/admin/post`: formulário renderiza campos nome, autores, data de conclusão, localização, categoria, descrição resumida, textarea, botões Cancelar/Enviar; tooltip de descrição resumida alterna visibilidade (estado `showExplicacao`).
-- [ ] **A.9** Caracterização de `/post/[id]`: renderiza metadados (Autor, Data, Localização, Categoria, Área), descrição e `ImagePost`; conteúdo hardcoded atual documentado.
-- [ ] **A.10** Caracterização de `/admin/login`: formulário de login renderiza (campos + botão), comportamento atual do submit.
-- [ ] **A.11** Caracterização de `ExplorarModalDesktop/Mobile`: renderização e abertura/fechamento atuais.
-- [ ] **A.12** Gate da Fase A: `npm test` 100% verde + `npm run build` verde + commit `test: rede de caracterização do código existente`.
+- [x] **A.1** Setup: Vitest + @testing-library/react + @testing-library/user-event + jsdom; alias `@/`; teste canário. Verificação: `npm test` passa.
+- [x] **A.2** Caracterização de `components/TextPost.tsx` (+ `TextPostTop`, `TextPostBottom`): título, autor, corpo pelas props.
+- [x] **A.3** Caracterização de `components/ImagesPost.tsx`: renderização de imagem(ns) pelas props.
+- [x] **A.4** Caracterização de `components/Post.tsx`: subcomponente renderizado por tipo de props.
+- [x] **A.5** Caracterização de `components/Header.tsx` + `HeaderSearch.tsx`: logo, busca, links.
+- [x] **A.6** Caracterização de `components/Nav.tsx`, `NavItem.tsx`, `NavItemMenu.tsx`: itens; comportamento do submenu.
+- [x] **A.7** Caracterização de `components/Main.tsx` + `src/pages/index.tsx`: Header + título + children; estado mockado atual documentado.
+- [x] **A.8** Caracterização de `components/TextoExplicativo.tsx` + página `/admin/post`: formulário renderiza campos nome, autores, data de conclusão, localização, categoria, descrição resumida, textarea, botões Cancelar/Enviar; tooltip de descrição resumida alterna visibilidade (estado `showExplicacao`).
+- [x] **A.9** Caracterização de `/post/[id]`: renderiza metadados (Autor, Data, Localização, Categoria, Área), descrição e `ImagePost`; conteúdo hardcoded atual documentado.
+- [x] **A.10** Caracterização de `/admin/login`: formulário de login renderiza (campos + botão), comportamento atual do submit.
+- [x] **A.11** Caracterização de `ExplorarModalDesktop/Mobile`: renderização e abertura/fechamento atuais.
+- [x] **A.12** Gate da Fase A: `npm test` 100% verde + `npm run build` verde + commit `test: rede de caracterização do código existente`.
 
 ## Fase B — Setup e fundação
 
-- [ ] **B.1** Prisma + SQLite:
+- [x] **B.1** Prisma + SQLite:
   ```prisma
   model User {
     id           String    @id @default(cuid())
@@ -82,35 +82,35 @@ Páginas já existentes (apenas UI estática, a ser conectada): `/` (feed), `/po
   }
   ```
   Verificação: `npx prisma migrate dev` sem erro; caracterização da Fase A verde.
-- [ ] **B.2** `types/Post.ts` e `types/User.ts` compartilhados. Verificação: `npm run build`.
+- [x] **B.2** `types/Post.ts` e `types/User.ts` compartilhados. Verificação: `npm run build`.
 
 ## Fase C — Autenticação (RF1–RF5)
 
-- [ ] **RF1 — Cadastro**: `POST /api/auth/register` — email+senha válidos → usuário criado (bcrypt); email duplicado → 409; senha curta → 422.
-- [ ] **RF2 — Login**: `POST /api/auth/login` — válido → 200 + cookie httpOnly (JWT); inválido → 401. **Conectar a página `/admin/login` existente** a esta API.
-- [ ] **RF3 — Logout**: `POST /api/auth/logout` — encerra sessão/cookie.
-- [ ] **RF4 — Proteção de rotas**: `requireAuth` nas rotas de escrita; sem sessão → 401. Leitura permanece pública.
-- [ ] **RF5 — Erro genérico**: resposta idêntica para email inexistente e senha errada.
+- [x] **RF1 — Cadastro**: `POST /api/auth/register` — email+senha válidos → usuário criado (bcrypt); email duplicado → 409; senha curta → 422.
+- [x] **RF2 — Login**: `POST /api/auth/login` — válido → 200 + cookie httpOnly (JWT); inválido → 401. **Conectar a página `/admin/login` existente** a esta API.
+- [x] **RF3 — Logout**: `POST /api/auth/logout` — encerra sessão/cookie.
+- [x] **RF4 — Proteção de rotas**: `requireAuth` nas rotas de escrita; sem sessão → 401. Leitura permanece pública.
+- [x] **RF5 — Erro genérico**: resposta idêntica para email inexistente e senha errada.
 
 ## Fase D — Leitura (RF6–RF9)
 
-- [ ] **RF6 — Seed**: 3 posts realistas de acervo de arquitetura (todos os campos do modelo). Verificação: Prisma retorna 3.
-- [ ] **RF7 — Feed paginado**: `lib/posts.ts` com `getPosts(page)` (10/página); home via `getServerSideProps`; Anterior/Próxima com limites. Atualizar teste A.7 num commit próprio.
-- [ ] **RF8 — Detalhe dinâmico**: `/post/[id]` via `getServerSideProps` substitui os dados hardcoded pelos dados reais do modelo (metadados, descrição, imagens); id inexistente → 404. Atualizar teste A.9 num commit próprio.
-- [ ] **RF9 — Navegação**: cards do feed → `<Link href="/post/[id]">`.
+- [x] **RF6 — Seed**: 3 posts realistas de acervo de arquitetura (todos os campos do modelo). Verificação: Prisma retorna 3.
+- [x] **RF7 — Feed paginado**: `lib/posts.ts` com `getPosts(page)` (10/página); home via `getServerSideProps`; Anterior/Próxima com limites. Atualizar teste A.7 num commit próprio.
+- [x] **RF8 — Detalhe dinâmico**: `/post/[id]` via `getServerSideProps` substitui os dados hardcoded pelos dados reais do modelo (metadados, descrição, imagens); id inexistente → 404. Atualizar teste A.9 num commit próprio.
+- [x] **RF9 — Navegação**: cards do feed → `<Link href="/post/[id]">`.
 
 ## Fase E — Escrita autenticada (RF10–RF13)
 
-- [ ] **RF10 — Create (conectar formulário existente)**: `/admin/post` chama `POST /api/posts` com os campos reais; grava vinculado à sessão; redireciona ao `/post/[id]` criado; sem sessão → 401; Cancelar → volta ao feed.
-- [ ] **RF11 — Update**: edição pré-preenchida (pode reutilizar a estrutura de `/admin/post`) + `PUT /api/posts/[id]`.
-- [ ] **RF12 — Delete**: botão com confirmação + `DELETE /api/posts/[id]`; redireciona ao feed.
-- [ ] **RF13 — Autorização por posse**: `session.userId === post.authorId` em PUT/DELETE; não-dono autenticado → 403.
+- [x] **RF10 — Create (conectar formulário existente)**: `/admin/post` chama `POST /api/posts` com os campos reais; grava vinculado à sessão; redireciona ao `/post/[id]` criado; sem sessão → 401; Cancelar → volta ao feed.
+- [x] **RF11 — Update**: edição pré-preenchida (pode reutilizar a estrutura de `/admin/post`) + `PUT /api/posts/[id]`.
+- [x] **RF12 — Delete**: botão com confirmação + `DELETE /api/posts/[id]`; redireciona ao feed.
+- [x] **RF13 — Autorização por posse**: `session.userId === post.authorId` em PUT/DELETE; não-dono autenticado → 403.
 
 ## Fase F — Validação e encerramento (RF14–RF15)
 
-- [ ] **RF14 — Validações**: nome e descricaoResumida obrigatórios, email formato válido, senha ≥ 8; erros na UI (front + API).
-- [ ] **RF15 — E2E manual**: cadastro → login (via `/admin/login`) → criar post (via `/admin/post`) → ver no feed → detalhe → editar → excluir → logout.
-- [ ] Gate final: `npm test` 100% verde; `npm run build` verde; commit final.
+- [x] **RF14 — Validações**: nome e descricaoResumida obrigatórios, email formato válido, senha ≥ 8; erros na UI (front + API).
+- [x] **RF15 — E2E manual**: cadastro → login (via `/admin/login`) → criar post (via `/admin/post`) → ver no feed → detalhe → editar → excluir → logout.
+- [x] Gate final: `npm test` 100% verde; `npm run build` verde; commit final.
 
 ---
 
