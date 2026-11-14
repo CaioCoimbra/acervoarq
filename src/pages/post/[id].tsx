@@ -8,8 +8,8 @@ export default function Post() {
         <>
             <Header />
             <Main title="Nome do Projeto">
-                <div className="flex flex-col gap-3">
-                    <div className="flex flex-col md:flex-row">
+                <div className="flex flex-col gap-5 md:gap-3">
+                    <div className="flex flex-col gap-5 md:gap-3 md:flex-row">
                         <ImagePost />
                         <ul className="flex flex-col text-lg gap-3">
                             <li className="font-semibold flex gap-3 items-center"><IconeICon /> Autor: Nostradamus</li>

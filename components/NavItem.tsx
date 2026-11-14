@@ -1,31 +1,28 @@
-import { ReactNode, useState } from "react"
+import { ReactNode } from "react"
 import NavItemMenu from "./NavItemMenu"
 
 interface NavItemProps {
     modal?: boolean
     texto: string
-    setAtivado?: (valor: boolean) => void
+    isOpen: boolean
+    onHover: () => void
+    onLeave: () => void
     children?: ReactNode
 }
 
 export default function NavItem(props: NavItemProps) {
-    const [ativado, setAtivado] = useState(false)
-
     return (
-        <>
-            <li
-                className="cursor-pointer hover:text-white"
-                onMouseEnter={() => {
-                    if (props.modal) {
-                        setAtivado(true)
-                    }
-                }}
-            >
-                {props.texto}
-            </li>
-            <NavItemMenu ativado={ativado} setAtivado={setAtivado} >
+        <li
+            onMouseEnter={() => {
+                if (props.modal) {
+                    props.onHover()
+                }
+            }}
+        >
+            <span className="hover:text-white cursor-pointer">{props.texto}</span>
+            <NavItemMenu ativado={props.isOpen} onLeave={props.onLeave}>
                 {props.children}
             </NavItemMenu>
-        </>
+        </li>
     )
 }
