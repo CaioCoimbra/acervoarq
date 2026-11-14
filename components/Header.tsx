@@ -1,3 +1,4 @@
+import Accessibilities from "./Accessibilities"
 import HeaderSearch from "./HeaderSearch"
 import Logo from "./Logo"
 import Nav from "./Nav"
@@ -9,7 +10,12 @@ export default function Header() {
                 <div className="flex flex-row items-center justify-between max-w-360 w-full mx-auto py-2 px-4">
                     <Logo />
                     <Nav />
-                    <HeaderSearch />
+                    <div className="flex justify-center items-center gap-3">
+                        <div className="relative">
+                            <Accessibilities />
+                        </div>
+                        <HeaderSearch />
+                    </div>
                 </div>
             </header>
             <span className="block h-[6vh]" />

@@ -1,4 +1,5 @@
 import Header from "../../../components/Header";
+import { IconeCategoria, IconeData, IconeICon, IconePin } from "../../../components/Icons";
 import ImagePost from "../../../components/ImagesPost";
 import Main from "../../../components/Main";
 
@@ -11,11 +12,11 @@ export default function Post() {
                     <div className="flex flex-col md:flex-row">
                         <ImagePost />
                         <ul className="flex flex-col text-lg gap-3">
-                            <li className="font-semibold">Autor: </li>
-                            <li className="font-semibold">Data: </li>
-                            <li className="font-semibold">Localização: </li>
-                            <li className="font-semibold">Catégoria: </li>
-                            <li className="font-semibold">Área: </li>
+                            <li className="font-semibold flex gap-3 items-center"><IconeICon /> Autor: Nostradamus</li>
+                            <li className="font-semibold flex gap-3 items-center"><IconeData /> Data: 17/08/1432</li>
+                            <li className="font-semibold flex gap-3 items-center"><IconePin /> Localização: Arábia</li>
+                            <li className="font-semibold flex gap-3 items-center"><IconeCategoria /> Categória: Castelo</li>
+                            <li className="font-semibold flex gap-3 items-center">Área: 15000m</li>
                         </ul>
                     </div>
                     <div>

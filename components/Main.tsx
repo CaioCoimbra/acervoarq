@@ -1,4 +1,9 @@
-export default function Main(props) {
+interface MainProps {
+    title?: string;
+    children?: React.ReactNode;
+}
+
+export default function Main(props: MainProps) {
     return (
         <main className="flex flex-col max-w-360 h-auto w-full my-3 mx-auto px-4">
             <h2 className="text-center text-2xl font-medium py-3 md:text-start">{props.title}</h2>

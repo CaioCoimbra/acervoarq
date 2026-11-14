@@ -8,7 +8,7 @@ import { IconeX } from "../../../components/Icons";
 export default function Post() {
 
     const divInputStyle = "flex flex-col gap-2"
-    const inputStyle = "bg-zinc-200 rounded-lg pl-3 py-1"
+    const inputStyle = "bg-zinc-200 rounded-lg pl-3 py-1 placeholder:text-zinc-400"
 
     const [showExplicacao, setShowExplicacao] = useState(true)
 

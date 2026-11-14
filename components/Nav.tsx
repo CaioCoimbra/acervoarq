@@ -3,7 +3,7 @@ import NavItem from "./NavItem";
 export default function Nav() {
     return (
         <nav>
-            <ul className="hidden md:flex gap-11 text-lg">
+            <ul className="hidden md:flex gap-11 text-lg font-semibold">
                 <NavItem texto="Início" />
                 <NavItem texto="Projetos & Ações ▾" modal >
                     <li>Futuros Possíveis</li>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import ImagePost from "./ImagesPost";
 import TextPost from "./TextPost";
 import TextPostBottom from "./TextPostBottom";
@@ -7,12 +8,16 @@ export default function Post() {
     return (
         <>
             <div className="hidden md:flex w-full h-95">
-                <ImagePost />
+                <Link href={`/post/1`} className="cursor-pointer contents">
+                    <ImagePost />
+                </Link>
                 <TextPost />
             </div>
             <div className="flex flex-col gap-3 md:hidden">
                 <TextPostTop />
-                <ImagePost />
+                <Link href={`/post/1`} className="cursor-pointer contents">
+                    <ImagePost />
+                </Link>
                 <TextPostBottom />
             </div>
         </>

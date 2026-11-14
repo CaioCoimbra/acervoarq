@@ -1,10 +1,10 @@
 import { useState } from "react"
 import ExplorarModalMobile from "./ExplorarModalMobile"
-import { IconeLupa } from "./Icons"
+import { Icone3Bars, IconeLupa } from "./Icons"
 import ExplorarModalDesktop from "./ExplorarModalDesktop"
 
 export default function HeaderSearch() {
-    const [ativado, setAtivado] = useState(false)
+    const [ativado, setAtivado] = useState(true)
 
     return (
         <>
@@ -14,7 +14,7 @@ export default function HeaderSearch() {
                 </button>
 
                 <button className="text-2xl cursor-pointer md:hidden" onClick={() => setAtivado(true)}>
-                    ☰
+                    {Icone3Bars}
                 </button>
             </div>
             <ExplorarModalMobile ativado={ativado} setAtivado={setAtivado} />
