@@ -35,7 +35,7 @@ export default function Accessibilities() {
             </div>
             
             <div className={`${ativado ? 'absolute flex' : 'hidden'} flex-col h-50 w-50 px-3 py-2 gap-3 bg-zinc-900/95 backdrop-blur-lg top-[4vh] -right-5 z-50`} onMouseLeave={() => setAtivado(false)}>
-                <h3>Configs</h3>
+                <h3>Acessibilidades</h3>
                 <ul>
                     <li className="flex items-center justify-between">
                         <h4>Dark Mode</h4>
