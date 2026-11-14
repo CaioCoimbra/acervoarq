@@ -15,7 +15,7 @@ export default function ExplorarItem(props: ExplorarItemProps) {
         <li onClick={() => { setItemAberto(!itemAberto) }}>
             <div className="flex justify-end items-center">
                 {props.texto}
-                <span className={`transition-transform duration-200 pl-1 ${itemAberto ? 'rotate-90' : ''}`}>{IconeFlexa(5)}</span>
+                <span className={`transition-transform duration-200 pl-1 ${itemAberto ? 'rotate-90' : ''}`}>{<IconeFlexa />}</span>
             </div>
 
             {props.children && (

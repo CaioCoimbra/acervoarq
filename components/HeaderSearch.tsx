@@ -4,7 +4,7 @@ import { Icone3Bars, IconeLupa } from "./Icons"
 import ExplorarModalDesktop from "./ExplorarModalDesktop"
 
 export default function HeaderSearch() {
-    const [ativado, setAtivado] = useState(true)
+    const [ativado, setAtivado] = useState(false)
 
     return (
         <>
