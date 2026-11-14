@@ -8,7 +8,7 @@ interface ExplorarModalDesktopProps {
 export default function ExplorarModalDesktop(props: ExplorarModalDesktopProps) {
     if (!props.ativado) return null
 
-    const liStyle = "flex items-center gap-1 h-5 hover:text-white cursor-pointer"
+    const liStyle = "flex items-center gap-1 h-5 hover:text-white cursor-pointer transition-all duration-300ms hover:gap-3"
 
     return (
         <div className="hidden md:flex flex-col justify-center absolute w-full left-0 top-0 mt-[6vh]">

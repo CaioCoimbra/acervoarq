@@ -1,5 +1,5 @@
 import Header from "../../../components/Header";
-import { IconeCategoria, IconeData, IconeICon, IconePin } from "../../../components/Icons";
+import { IconeArea, IconeCategoria, IconeData, IconeICon, IconePin } from "../../../components/Icons";
 import ImagePost from "../../../components/ImagesPost";
 import Main from "../../../components/Main";
 
@@ -16,7 +16,7 @@ export default function Post() {
                             <li className="font-semibold flex gap-3 items-center"><IconeData /> Data: 17/08/1432</li>
                             <li className="font-semibold flex gap-3 items-center"><IconePin /> Localização: Arábia</li>
                             <li className="font-semibold flex gap-3 items-center"><IconeCategoria /> Categória: Castelo</li>
-                            <li className="font-semibold flex gap-3 items-center">Área: 15000m</li>
+                            <li className="font-semibold flex gap-3 items-center">{IconeArea} Área: 15000m</li>
                         </ul>
                     </div>
                     <div>

@@ -48,23 +48,24 @@ export const IconeICon = (props: SVGProps<SVGSVGElement>) => (
 )
 
 export const IconePin = (props: SVGProps<SVGSVGElement>) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={17}
-    height={17}
-    viewBox="0 0 17 17"
-    fill="none"
-    className="text-black dark:text-white shrink-0"
-    {...props}
-  >
-    <path
-      fill="currentColor"
-      fillRule="evenodd"
-      d="M8.5 1.063c3.188 0 5.313 2.125 5.313 5.312 0 3.188-3.188 6.375-5.313 9.563-2.125-3.188-5.313-6.376-5.313-9.563 0-3.188 2.126-5.313 5.313-5.313Zm0 2.656a2.656 2.656 0 1 0 0 5.312 2.656 2.656 0 0 0 0-5.312Z"
-      clipRule="evenodd"
-    />
-  </svg>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={17}
+  height={17}
+  viewBox="0 0 17 17"
+  fill="none"
+  className="text-black dark:text-white shrink-0 -ml-[3px]" // Adicionei -ml-[3px] aqui
+  {...props}
+>
+  <path
+    fill="currentColor"
+    fillRule="evenodd"
+    d="M8.5 1.063c3.188 0 5.313 2.125 5.313 5.312 0 3.188-3.188 6.375-5.313 9.563-2.125-3.188-5.313-6.376-5.313-9.563 0-3.188 2.126-5.313 5.313-5.313Zm0 2.656a2.656 2.656 0 1 0 0 5.312 2.656 2.656 0 0 0 0-5.312Z"
+    clipRule="evenodd"
+  />
+</svg>
 )
+
 
 export const IconeData = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -87,6 +88,11 @@ export const IconeData = (props: SVGProps<SVGSVGElement>) => (
       d="M3.542 1v2.125M10.625 1v2.125"
     />
   </svg>
+)
+
+export const IconeArea = (
+<svg  xmlns="http://www.w3.org/2000/svg" width={19} height={19} className='-m-[3px]' fill={"currentColor"} viewBox={"0 0 24 24"}><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2M5 19V5h14v14z"/><path d="M12 9h3v3h2V7h-5zM9 12H7v5h5v-2H9z"/></svg>
+
 )
 
 export const IconeCategoria = (props: SVGProps<SVGSVGElement>) => (
