@@ -15,6 +15,11 @@ export default function NavSubItem(props: NavSubItemProps) {
                 pathname: '/archive',
                 query: { title: props.title, texto: props.texto },
             }}
+            onClick={(e) => {
+                e.preventDefault();
+                window.location.href = `/archive?title=${encodeURIComponent(props.title)}&texto=${encodeURIComponent(props.texto)}`;
+            }}
+            className="contents"
         >
             <li className={liStyle}>
                 {props.title}
