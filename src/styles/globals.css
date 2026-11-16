@@ -15,7 +15,8 @@
 }
 
 html,
-body {
+body,
+#__next {
   font-family: var(--font-sans);
   min-height: 100vh;
   display: flex;
