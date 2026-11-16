@@ -1,0 +1,13 @@
+
+Options -MultiViews
+
+RewriteEngine On
+RewriteBase /
+
+# Preserva arquivos e pastas existentes
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Encaminha /post/2 para a página estática de posts
+RewriteRule ^post/([^/]+)/?$ post/index.html?id=$1 [QSA,L]
